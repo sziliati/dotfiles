@@ -1,3 +1,3 @@
-How to use dotfiels?
+How to use dotfiles?
 
 gnu stow
