@@ -27,7 +27,8 @@
     "temperature",
     "backlight",
     //"keyboard-state",
-    "hyprland/language",
+    //"hyprland/language",
+    "custom/weather",
     "battery"
     //"clock",
     //"tray",
@@ -200,4 +201,10 @@
     "on-scroll-up": "playerctl next",
     "on-scroll-down": "playerctl previous"
   },
+  "custom/weather": {
+    "exec": "~/.config/waybar/scripts/weather.sh",
+    "interval": 600,
+    "return-type": "json",
+    "tooltip": true
+  }
 }
