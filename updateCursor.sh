@@ -2,39 +2,19 @@
 set -e
 
 # Beállítások
-APP="Cursor"
-INSTALL_DIR="/opt/cursor"
-BIN_PATH="/usr/local/bin/cursor"
+INSTALL_DIR="$HOME/Applications"
 DESKTOP_FILE="/usr/share/applications/cursor.desktop"
 
-# Legfrissebb release lekérése a GitHub API-ról
 echo "🔍 Legfrissebb Cursor AppImage keresése..."
-URL="curl -L "https://downloader.cursor.sh/linux/appImage/x64" -o cursor-latest.AppImage"
 
-if [[ -z "$URL" ]]; then
-  echo "❌ Nem sikerült megtalálni a Cursor AppImage letöltési linkjét."
-  exit 1
-fi
+JSON=$(curl -fsSL "https://cursor.com/api/download?platform=linux-x64&releaseTrack=latest")
 
-echo "📥 Letöltés innen: $URL"
-mkdir -p "$INSTALL_DIR"
-curl -L "$URL" -o "$INSTALL_DIR/cursor.AppImage"
+URL=$(echo "$JSON" | jq -r '.downloadUrl')
 
-# Jogosultságok
-chmod +x "$INSTALL_DIR/cursor.AppImage"
+echo "⬇️ Letöltési URL:"
+echo "$URL"
 
-# Symlink létrehozása
-ln -sf "$INSTALL_DIR/cursor.AppImage" "$BIN_PATH"
+curl -L "$URL" -o $INSTALL_DIR/cursor.AppImage
+chmod +x $INSTALL_DIR/cursor.AppImage
 
-# Desktop entry létrehozása
-cat <<EOF | sudo tee "$DESKTOP_FILE" > /dev/null
-[Desktop Entry]
-Name=Cursor
-Exec=$BIN_PATH %U
-Icon=$INSTALL_DIR/icon.png
-Type=Application
-Categories=Development;IDE;
-Terminal=false
-EOF
-
-echo "✅ Telepítés kész! Indíthatod a menüből vagy futtasd: cursor"
+echo "✅ Frissítettük: $INSTALL_DIR/cursor.AppImage"
