@@ -3,7 +3,7 @@ set -e
 
 # Beállítások
 INSTALL_DIR="$HOME/Applications"
-DESKTOP_FILE="/usr/share/applications/cursor.desktop"
+DESKTOP_FILE="/usr/local/share/applications/cursor.desktop"
 
 echo "🔍 Legfrissebb Cursor AppImage keresése..."
 
