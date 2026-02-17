@@ -1,7 +1,7 @@
 return {
   {
     "github/copilot.vim",   -- official Copilot plugin
-    event = "InsertEnter", -- lazy-load on Insert mode
+    lazy = false, -- load on startup so commands are available
     config = function()
       -- Disable Copilot tab mapping if you want custom keys:
       vim.g.copilot_no_tab_map = true
