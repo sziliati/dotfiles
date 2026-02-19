@@ -22,3 +22,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 -- save for ctrl + save
 vim.keymap.set("n", "<leader>w", ":w<CR>", { silent = true })
+
+-- map Ctrl-S in normal and visual modes: save and show notification
+vim.keymap.set({ "n", "v" }, "<C-s>", ":w<CR>:lua vim.notify('File saved', vim.log.levels.INFO)<CR>", { silent = true })
+-- map Ctrl-S in insert mode: run a single normal-mode command to save and notify, staying in insert
+vim.keymap.set("i", "<C-s>", "<C-o>:w<CR>:lua vim.notify('File saved', vim.log.levels.INFO)<CR>", { silent = true })
