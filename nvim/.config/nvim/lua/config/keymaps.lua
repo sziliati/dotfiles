@@ -36,3 +36,19 @@ local function tui(cmd)
 end
 map("n", "<leader>gg", tui("lazygit"), { desc = "Lazygit" })
 map("n", "<leader>D", tui("lazysql"), { desc = "Lazysql (adatbázis)" })
+
+-- Fájl útvonalának másolása a vágólapra (konténerből is, a remote_clipboard révén)
+local function copy_path(fn)
+  return function()
+    local text = fn()
+    if text == "" then return vim.notify("Nincs fájl a bufferben", vim.log.levels.WARN) end
+    vim.fn.setreg("+", text)
+    vim.notify("Kimásolva: " .. text)
+  end
+end
+map("n", "<leader>yp", copy_path(function() return vim.fn.expand("%:.") end), { desc = "Relatív útvonal másolása" })
+map("n", "<leader>yl", copy_path(function()
+  local p = vim.fn.expand("%:.")
+  return p == "" and "" or p .. ":" .. vim.fn.line(".")
+end), { desc = "Relatív útvonal + sor másolása" })
+map("n", "<leader>yP", copy_path(function() return vim.fn.expand("%:p") end), { desc = "Abszolút útvonal másolása" })

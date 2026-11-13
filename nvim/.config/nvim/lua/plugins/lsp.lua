@@ -12,20 +12,23 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     dependencies = { "mason-org/mason.nvim" },
     lazy = false,
-    opts = {
-      ensure_installed = {
+    opts = function()
+      local tools = {
         "intelephense",
         "lua-language-server",
-        "pint",
-        "phpstan",
         "stylua",
         "php-debug-adapter",
         "blade-formatter",
         "dockerfile-language-server",
         "docker-compose-language-service",
         "hadolint",
-      },
-    },
+      }
+      -- A pint és a phpstan composerrel települ, ami PHP nélkül hibát dobna
+      if vim.fn.executable("php") == 1 and vim.fn.executable("composer") == 1 then
+        vim.list_extend(tools, { "pint", "phpstan" })
+      end
+      return { ensure_installed = tools }
+    end,
   },
 
   -- Lua fejlesztés a Neovim API-hoz

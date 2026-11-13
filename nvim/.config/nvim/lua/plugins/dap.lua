@@ -30,6 +30,8 @@ return {
     dap.listeners.after.event_initialized.dapui = function() dapui.open() end
     dap.listeners.before.event_terminated.dapui = function() dapui.close() end
     dap.listeners.before.event_exited.dapui = function() dapui.close() end
+    -- terminate() a php-debug-adapternél disconnect kérést küld, terminated esemény nem mindig jön
+    dap.listeners.before.disconnect.dapui = function() dapui.close() end
 
     vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticError" })
     vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DiagnosticWarn", linehl = "Visual" })

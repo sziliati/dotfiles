@@ -15,9 +15,10 @@ return {
   },
   init = function() vim.g.autoformat = true end,
   opts = {
-    -- A pint a projekt vendor/bin/pint-jét használja, ha van (különben a Mason-féle)
+    -- A pint a projekt vendor/bin/pint-jét használja, ha van (különben a Mason-féle).
+    -- PHP nélkül a pint nem fut, ilyenkor üres listát adunk (nincs hibaüzenet, LSP fallback).
     formatters_by_ft = {
-      php = { "pint" },
+      php = function() return vim.fn.executable("php") == 1 and { "pint" } or {} end,
       blade = { "blade-formatter" },
       lua = { "stylua" },
     },
